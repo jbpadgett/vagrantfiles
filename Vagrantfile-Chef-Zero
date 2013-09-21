@@ -1,0 +1,62 @@
+#################################################
+# 2 NODE TESTING VAGRANTFILE TEMPLATE
+# CHEF-ZERO TESTING
+# REQUIRES:  Vagrant 1.2.2 + VirtualBox 4.2.12
+#################################################
+
+Vagrant.configure("2") do |config|
+    #VAGRANT_LOG = debug
+    #config.berkshelf.enabled = true
+    config.ssh.timeout = 120
+
+		#chef-zero configuration block
+		#chef-zero runs on the host machine not the guest
+		#config.chef_zero.enabled = false
+		#Location of the chef-zero things
+	  config.chef_zero.nodes = "~/git-repos/vagrantprojects/vagrant-chef-zero/nodes"
+	  config.chef_zero.environments = "~/git-repos/vagrantprojects/vagrant-chef-zero/environments"
+	  config.chef_zero.data_bags = "~/git-repos/vagrantprojects/vagrant-chef-zero/data_bags"
+	  config.chef_zero.cookbooks = "~/git-repos/vagrantprojects/vagrant-chef-zero/cookbooks"
+	  config.chef_zero.roles = "~/git-repos/vagrantprojects/vagrant-chef-zero/roles"
+
+    config.vm.provider :virtualbox do |vb|
+      # headless mode or not
+      vb.gui = true
+      #
+      # Use VBoxManage to customize the VM. For example to change memory:
+      #  vb.customize ["modifyvm", :id, "--memory", "512"]
+      end
+    
+    config.vm.define :vm1 do |vm1|
+        vm1.vm.hostname  =  "vagrantvm1-local"
+        vm1.vm.box       =  "centos64basebox"
+        #vm1.vm.box_url = "~/git-repos/vagrantprojects/vagrantboxes"
+        #vm1.vm.network :private_network, ip: "192.168.56.71"
+			  vm1.vm.provision :chef_client do |chef|
+			    chef.run_list = [
+			    #        "recipe[base::default]",
+	        #        "recipe[foo::default]",
+	        #        "recipe[minitest-handler]"
+			    ]
+			  end
+
+
+    end
+
+    config.vm.define :vm2 do |vm2|      
+        #vm2.berkshelf.enabled = true
+        vm2.vm.hostname  =  "vagrantvm2-local"
+        vm2.vm.box       =  "centos64basebox"
+        #vm2.vm.box_url = "~/git-repos/vagrantprojects/vagrantboxes"
+        #vm2.vm.network :private_network, ip: "192.168.56.72"
+			  vm2.vm.provision :chef_client do |chef|
+			    chef.run_list = [
+			    #        "recipe[base::default]",
+	        #        "recipe[foo::default]",
+	        #        "recipe[minitest-handler]"
+			    ]
+			  end
+
+    end
+
+end 
