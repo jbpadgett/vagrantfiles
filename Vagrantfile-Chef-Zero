@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
         vm1_config.vm.hostname  =  "vagrant1.local"
         #vm1_config.hostmanager.aliases = %w(vm1.localdomain vm1-alias)
         vm1_config.vm.box = "chef/centos-7.0"
-        #vm1_config.vm.box_url = "/Users/je9g28w"git"-repos/vagrantprojects/vagrantboxes"
+        #vm1_config.vm.box_url = "/$HOME/vagrantprojects/vagrantboxes"
         vm1_config.vm.network :private_network, ip: "192.168.56.71"
         #vm1_config_config.vm.network :forwarded_port, guest: 80, host: 8080
         #vm1_config.vm.network :forwarded_port, guest: 443, host: 8443      
