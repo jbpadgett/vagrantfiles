@@ -4,7 +4,6 @@
 # REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
 #################################################
 
-
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
@@ -12,8 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: 
   "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
   
-  # Uncomment the things you want to run
- 
+  # Uncomment the things you want to run 
   # Sinatra default exposed docker port
   config.vm.network :forwarded_port, guest: 4567, host: 4567 
    
