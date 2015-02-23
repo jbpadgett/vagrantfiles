@@ -44,8 +44,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           chef.roles_path = "/$HOME/vagrantprojects/vagrant-chef-zero/roles"
           chef.environments_path = "/$HOME/vagrantprojects/vagrant-chef-zero/environments"
           chef.data_bags_path = "/$HOME/vagrantprojects/vagrant-chef-zero/data_bags"
-          chef.add_role("docker")
-          #chef.add_recipe( "foo")
+          chef.add_role("fooRole")
+          #chef.add_recipe( "fooRecipe")
 			  end
 		  end
 
