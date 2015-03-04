@@ -1,5 +1,5 @@
 vagrantfiles
-============+
+=============
 
 These are a collection of Vagrantfiles to do local (pre-commit) testing using Virtualbox + Vagrant + other things.
 These Vagrantfiles use the Vagrant 2.0 formats.
