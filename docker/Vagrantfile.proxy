@@ -13,13 +13,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # Uncomment the things you want to run 
   # Sinatra default exposed docker port
-  config.vm.network :forwarded_port, guest: 4567, host: 4567 
+  #config.vm.network :forwarded_port, guest: 4567, host: 4567 
+
+  # Rails default exposed docker port
+  config.vm.network :forwarded_port, guest: 3000, host: 3000 
    
   # Redis exposed docker ports
-  config.vm.network :forwarded_port, guest: 6379, host: 6379
+  #config.vm.network :forwarded_port, guest: 6379, host: 6379
   
   # Postgres default exposed docker port
-  #config.vm.network :forwarded_port, guest: 5432, host: 5432
+  config.vm.network :forwarded_port, guest: 5432, host: 5432
   
   # MySQL/MariaDB default exposed docker port
   #config.vm.network :forwarded_port, guest: 3306, host: 3306
@@ -33,8 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Node.js default exposed docker port
   #config.vm.network :forwarded_port, guest: 8080, host: 8080 
   
-  # Rails default exposed docker port
-  #config.vm.network :forwarded_port, guest: 3000, host: 3000 
+
   
 end
 
