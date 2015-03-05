@@ -4,44 +4,38 @@
 # REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
 #################################################
 
+# Placing container with DB first to avoid vagrant parallel issues
+# Start using vagrant up --provision-with docker --no-parallel
+
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 #Define container 1
-config.vm.define "rails" do |v|
-  v.vm.provider "docker" do |d|
-    d.image = "library/rails"
-    d.ports = ["3000:3000"]
-    d.vagrant_vagrantfile = "./Vagrantfile.proxy"
-    end
-end
-
-
-#Define container 2
 config.vm.define "postgres" do |v|
   v.vm.provider "docker" do |d|
-    d.image = "library/postgresql"
-    d.volumes = ["/var/docker/postgresql:/data"]
+    d.image = "library/postgres"
+    d.volumes = ["/var/docker/postgres:/data"]
     d.ports = ["5432:5432"]
     d.env = {
       USER: "root",
       PASS: "superSecretpass",
       DB: "root"
       }
-     d.vagrant_vagrantfile = "./Vagrantfile.proxy"
-      end
-    end
-end  
+      d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+  end
+end
+ 
   
-#Define container 3
-#config.vm.define "redis" do |v|
-#  v.vm.provider "docker" do |d|
-#    d.image = "dockerfile/redis"
-#    d.volumes = ["/var/docker/redis:/data"]
-#    d.ports = ["6379:6379"]
-#    d.vagrant_vagrantfile = "./Vagrantfile.proxy"
-#    end
-#end
+#Define container 2
+config.vm.define "rails" do |v|
+  v.vm.provider "docker" do |d|
+    d.image = "library/rails"
+    d.ports = ["3000:3000 "]
+    d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+    end
+end
 
 
+
+end 
 
