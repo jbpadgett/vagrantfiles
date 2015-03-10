@@ -2,28 +2,27 @@
 # N NODE TESTING VAGRANTFILE TEMPLATE
 # DOCKER PROXY VM (VM used by all docker processes)
 # REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
+# borrowed heavily from @grahamjenson version
 #################################################
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
-  config.vm.provision "docker"
+  config.vm.provision "dockerhost"
   config.vm.provision "shell", inline: 
   "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
   
   # Uncomment the things you want to run 
-  # Sinatra default exposed docker port
-  #config.vm.network :forwarded_port, guest: 4567, host: 4567 
-
-  # Rails default exposed docker port
-  config.vm.network :forwarded_port, guest: 3000, host: 3000 
-   
-  # Redis exposed docker ports
-  #config.vm.network :forwarded_port, guest: 6379, host: 6379
   
   # Postgres default exposed docker port
   config.vm.network :forwarded_port, guest: 5432, host: 5432
+ 
+  # Rails default exposed docker port
+  config.vm.network :forwarded_port, guest: 3000, host: 3000 
   
+  # Redis exposed docker ports
+  #config.vm.network :forwarded_port, guest: 6379, host: 6379
+     
   # MySQL/MariaDB default exposed docker port
   #config.vm.network :forwarded_port, guest: 3306, host: 3306
   
@@ -35,7 +34,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # Node.js default exposed docker port
   #config.vm.network :forwarded_port, guest: 8080, host: 8080 
-  
+ 
+  # Sinatra default exposed docker port
+  #config.vm.network :forwarded_port, guest: 4567, host: 4567  
 
   
 end
