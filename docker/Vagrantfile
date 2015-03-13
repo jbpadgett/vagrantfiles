@@ -31,6 +31,8 @@ config.vm.define "rails" do |v|
   v.vm.provider "docker" do |d|
     d.image = "library/rails"
     d.ports = ["3000:3000 "]
+    d.link("postgres:postgres")
+    d.cmd = ["bundle install && bundle exec passenger -p 3000"]
     d.vagrant_vagrantfile = "./Vagrantfile.proxy"
     end
 end
