@@ -17,5 +17,7 @@ This is used to do Chef-Zero testing with Vagrant.
 Vagrantfile & vagrantfile.proxy
 =================================
 This is used to do Docker testing with Vagrant using 2 Vagrantfiles.
+The Vagrantfile.proxy sets up the vagrant vm host upon which containers run.
+The Vagrantfile sets up the containers.
 This method borrowed from @grahamjenson.
 
