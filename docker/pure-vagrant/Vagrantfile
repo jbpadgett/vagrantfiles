@@ -1,8 +1,9 @@
-#################################################
-# N NODE TESTING VAGRANTFILE TEMPLATE
+##################################################################
+# Pure-vagrant Vagrant + Docker Vagrantfile
 # DOCKER with multiple containers
 # REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
-#################################################
+# Uses Vagrantfiles for defining and launching docker containers
+##################################################################
 
 # Placing container with DB first to avoid vagrant parallel issues
 # Start using vagrant up --provision-with docker --no-parallel
@@ -17,11 +18,11 @@ config.vm.define "postgres" do |v|
     d.volumes = ["/var/docker/postgres:/data"]
     d.ports = ["5432:5432"]
     d.env = {
-      USER: "root",
-      PASS: "superSecretpass",
-      DB: "root"
+      USER: "mydbuser",
+      PASS: "mydbpass",
+      DB: "mydb"
       }
-      d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+      d.vagrant_vagrantfile = "./Vagrantfile.host"
   end
 end
  
@@ -33,7 +34,7 @@ config.vm.define "rails" do |v|
     d.ports = ["3000:3000 "]
     d.link("postgres:postgres")
     d.cmd = ["bundle install && bundle exec passenger -p 3000"]
-    d.vagrant_vagrantfile = "./Vagrantfile.proxy"
+    d.vagrant_vagrantfile = "./Vagrantfile.host"
     end
 end
 

@@ -1,0 +1,37 @@
+##########################################################
+# Dockerfile-centric Vagrant + Docker Vagrantfile
+# DOCKER with multiple containers
+# REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
+# Uses minimal Vagrantfile which references Dockerfiles
+##########################################################
+
+# Saves you from typing  vagrant up --provision-with docker
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+#Container 1
+config.vm.define "postgres" do |v|
+  v.vm.provider "docker" do |d|
+    d.env = {
+      USER: "mydbuser",
+      PASS: "mydbpass",
+      DB: "mydb"
+      }
+      d.build_dir = "./docker/db/"
+      d.vagrant_vagrantfile = "./Vagrantfile.host"
+  end
+end
+
+#Container 2
+config.vm.define "rails" do |v|
+  v.vm.provider "docker" do |d|
+    d.link("postgres:postgres")
+    d.volumes = [".:/myapp"]
+    d.build_dir = "./"
+    d.vagrant_vagrantfile = "./Vagrantfile.host"
+    end
+end
+
+end 

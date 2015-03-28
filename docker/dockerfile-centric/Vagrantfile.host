@@ -1,14 +1,13 @@
-#################################################
-# N NODE TESTING VAGRANTFILE TEMPLATE
-# DOCKER PROXY VM (VM used by all docker processes)
+#########################################################################
+# Dockerfile-centric Vagrant + Docker Vagrantfile
+# DOCKER with multiple containers
 # REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
-# borrowed heavily from @grahamjenson version
-#################################################
+# This Vagrantfile is used to configure and launch the HOST for docker
+#########################################################################
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
-  #config.vm.box = "hashicorp/precise64"
   config.vm.provision "dockerhost"
   config.vm.provision "shell", inline: 
   "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
@@ -41,6 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   
 end
+
 
 
 

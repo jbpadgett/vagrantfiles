@@ -1,0 +1,54 @@
+#########################################################################
+# Pure-vagrant Vagrant + Docker Vagrantfile
+# DOCKER with multiple containers
+# REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
+# This Vagrantfile is used to configure and launch the HOST for docker
+#########################################################################
+
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  #config.vm.box = "hashicorp/precise64"
+  config.vm.provision "dockerhost"
+  config.vm.provision "shell", inline: 
+  "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+  
+  # Uncomment the things you want to run 
+  
+  # Postgres default exposed docker port
+  config.vm.network :forwarded_port, guest: 5432, host: 5432
+ 
+  # Rails default exposed docker port
+  config.vm.network :forwarded_port, guest: 3000, host: 3000 
+  
+  # Redis exposed docker ports
+  #config.vm.network :forwarded_port, guest: 6379, host: 6379
+     
+  # MySQL/MariaDB default exposed docker port
+  #config.vm.network :forwarded_port, guest: 3306, host: 3306
+  
+  # MongoDB default exposed docker port
+  #config.vm.network :forwarded_port, guest: 27017, host: 27017 
+  
+  # Elastisearch default exposed docker port
+  #config.vm.network :forwarded_port, guest: 9200, host: 9200 
+  
+  # Node.js default exposed docker port
+  #config.vm.network :forwarded_port, guest: 8080, host: 8080 
+ 
+  # Sinatra default exposed docker port
+  #config.vm.network :forwarded_port, guest: 4567, host: 4567  
+
+  
+end
+
+
+
+
+
+
+
+
+
+
+
