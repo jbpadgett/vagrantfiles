@@ -20,7 +20,6 @@ Vagrant + Docker
 2 approaches:
 
 1) dockerfile-centric
-
 	- Dockerfiles + Vagrant to launch them
 	
 2) pure-vagrant
