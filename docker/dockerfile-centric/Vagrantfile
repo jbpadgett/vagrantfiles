@@ -29,7 +29,7 @@ config.vm.define "rails" do |v|
   v.vm.provider "docker" do |d|
     d.link("postgres:postgres")
     d.volumes = [".:/myapp"]
-    d.build_dir = "./"
+    d.build_dir = "./docker/web/"
     d.vagrant_vagrantfile = "./Vagrantfile.host"
     end
 end
