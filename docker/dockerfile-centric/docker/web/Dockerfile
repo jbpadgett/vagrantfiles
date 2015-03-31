@@ -1,9 +1,9 @@
 FROM ubuntu:14.04
-MAINTAINER JBPadgett <@jbpadgett>
+MAINTAINER JBPadgett "@jbpadgett"
 ENV REFRESHED_AT 04-27-2015
 
 # REPOS SETUP
-RUN apt-get -y update && add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
+#RUN apt-get -y update && add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
 
 # INSTALL DESIRED PACKAGES
 RUN apt-get update -qq && apt-get install -y build-essential \
@@ -21,6 +21,7 @@ RUN apt-get update -qq && apt-get install -y build-essential \
                                              libtool \
                                              libcurl4-openssl-dev \
                                              python-software-properties \
+                                             software-properties-common \
                                              libffi-dev \
                                              bison \
                                              unzip \
