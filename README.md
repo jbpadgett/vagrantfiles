@@ -17,7 +17,7 @@ This is used to do Chef-Zero testing with Vagrant.
 
 Vagrant + Docker
 =================
-2 approaches:
+3 approaches:
 
 1) dockerfile-centric
 	- Dockerfiles + Vagrant to launch them
