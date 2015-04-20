@@ -1,0 +1,25 @@
+##########################################################
+# Dockerhost only Vagrantfile
+# DOCKER host for launching containers with shared folders
+# REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
+# Uses minimal Vagrantfile to stand up a docker host
+##########################################################
+
+# Vagrantfile to only create a dockerhost and mount NFS to shared folder
+# Use when you want to run docker commands normally and not through Vagrant
+
+VAGRANTFILE_API_VERSION = "2"
+  Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.define "dockerhost" do |dh|
+    dh.vm.box = "ubuntu/trusty64"
+    dh.vm.hostname = "dockerhost"
+    dh.vm.network "private_network", ip: "192.168.56.101"
+    dh.vm.synced_folder ".", "/myapp", type: "nfs"
+    dh.vm.provision "docker" do |d|
+      # building image or running is optional and can be remarked out
+      d.build_image "/myapp/dockerfiles/", args: '-t "mycontainertag"'
+      d.run "mycontainer"
+    end
+  end
+end
+

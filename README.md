@@ -25,6 +25,9 @@ Vagrant + Docker
 2) pure-vagrant
 	- Vagrantfiles for defining and launching docker containers
 	
+3) dockerhost only
+	- Vagrantfile for making a dockerhost only with NFS shared folder
+	- great for running docker commands natively without using Vagrant provider
 
 Vagrantfile & Vagrantfile.host
 -------------------------------
