@@ -36,5 +36,7 @@ The Vagrantfile.proxy sets up the vagrant vm host upon which containers run.
 The Vagrantfile sets up the containers.
 
 
-
+Vagrant-tcpdump
+==================
+This is used to enable and disable tcpdump/virtualbox pcap traces on a vagrant VM used as a dockerhost.  This is useful when you want to debug traffic from docker containers running on a Vagrant built dockerhost.
 

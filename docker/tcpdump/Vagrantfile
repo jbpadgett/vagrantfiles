@@ -1,0 +1,30 @@
+#############################################################
+# Docker-Pure Vagrant Vagrantfile
+# DOCKER host for launching containers with shared folders
+# REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
+# Uses minimal Vagrantfile to stand up a docker host
+# Allows enable/disable of tcpdump on a dockerhost as needed
+#############################################################
+
+# Saves you from typing  vagrant up --provision-with docker
+# ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+
+VAGRANTFILE_API_VERSION = "2"
+  Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.define "dockerhost" do |dh|
+    #enable tcpdumpfile begin --use and disable promptly#
+    dh.customize ['modifyvm', :id, '--nictrace1', 'on'] 
+    dh.customize ['modifyvm', :id, '--nictracefile1', 'trace1.pcap']
+    #enable tcpdumpfile end --use and disable promptly#
+    dh.vm.box = "ubuntu/trusty64"
+    dh.vm.hostname = "dockerhost"
+    dh.vm.network "private_network", ip: "192.168.56.100"
+    dh.vm.synced_folder ".", "/myapp", type: "nfs"
+    dh.vm.provision "shell", inline: "sudo apt-get install -y --ignore-missing postgresql-client-common"
+    #dh.vm.provision "shell", inline: "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+    dh.vm.provision "docker" do |d|
+      #d.build_image "/myapp/docker/db", args: '-t "postgres9.4"'
+      #d.run "mycontainer"
+    end
+  end
+end
