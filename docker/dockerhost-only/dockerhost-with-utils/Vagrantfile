@@ -1,0 +1,69 @@
+#########################################################################
+# Dockerfile-centric Vagrant + Docker Vagrantfile
+# DOCKERHOST for running multiple containers
+# REQUIRES:  Vagrant 1.7.2+ VirtualBox 4.3.14+
+# This Vagrantfile is used to configure and launch the HOST for docker
+#########################################################################
+
+$myscript = <<SCRIPT
+curl -s https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public | sudo apt-key add -
+curl -s -o /etc/apt/sources.list.d/draios.list http://download.draios.com/stable/deb/draios.list
+sudo apt-get update -qq && sudo apt-get install -y build-essential \
+                                             curl \
+                                             wget \
+                                             inetutils-ping \
+                                             git-core \
+                                             git \
+                                             zlib1g-dev \
+                                             openssl \
+                                             libssl-dev \
+                                             libreadline-dev \
+                                             libyaml-dev \
+                                             libxml2-dev \
+                                             libxslt-dev \
+                                             libtool \
+                                             libcurl4-openssl-dev \
+                                             python-software-properties \
+                                             software-properties-common \
+                                             libffi-dev \
+                                             bison \
+                                             unzip \
+                                             vim \
+                                             libsqlite3-dev \
+                                             sqlite3 \
+                                             libpq-dev \
+                                             postgresql-client \
+                                             nodejs \
+                                             supervisor \
+                                             sysdig
+SCRIPT
+
+
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.hostname = "dockerhost"
+  #customize the dockerhost vm
+  config.vm.provider "virtualbox" do |v|
+      v.memory = 6000
+      #v.cpus = 2
+    end
+  #Using private networking config
+  config.vm.network "private_network", ip: "192.168.56.101"
+  #nfs + synched folder of current project repo to docker host
+  config.vm.synced_folder ".", "/rails/myapp", type: "nfs"
+  #provision the dockerhost vm
+  config.vm.provision :shell, inline: $myscript
+  #setup docker + docker compose
+  config.vm.provision :docker
+  #config.vm.provision :docker_compose
+  #config.vm.provision :docker_compose, yml: "/rails/myapp/docker-compose.yml", rebuild: true, project_name: "myapp", run: "always"
+  
+  
+
+end
+
+
+
+
+
